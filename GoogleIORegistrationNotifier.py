@@ -37,23 +37,32 @@ def main():
     print ' Google IO Registration Notifier '
     print '---------------------------------'
     print 'page check interval set to %s seconds'%INTERVAL_SEC
-    print 'connecting to local SMTP server...'
-    print 'emails will be sent as %s.'%FROM_EMAIL
-    SMTPServ.connect()
-    print 'please log in to Google Voice:'
-    try:
-        GVoice.login()
-    except GVLoginError:
-        print 'Google Voice login failed. Exiting.'
-        exit(1)
+    if EMAIL_ENABLE:
+        print 'email notifications enabled.'
+        print 'emails will be sent as %s.'%FROM_EMAIL
+        print 'connecting to local SMTP server...'
+        SMTPServ.connect()
+    if TEXT_ENABLE:
+        print 'text (SMS) notifications enabled.'
+        print 'please log in to Google Voice:'
+        try:
+            GVoice.login()
+        except GVLoginError:
+            print 'Google Voice login failed. Exiting.'
+            exit(1)
+    if !EMAIL_ENABLE and !TEXT_ENABLE:
+        print '** WARNING ** Both text and email notifications are DISABLED.'
     print 'sending text(s) and email(s) reporting notifier start...'
-    sendEmails('Google IO Registration Notifier started.',
-            'What it says on the label. (%s)'%timestamp())
-    sendTexts('Google IO Registration Notifier started. (%s)'%timestamp())
+    if EMAIL_ENABLE:
+        sendEmails('Google IO Registration Notifier started.',
+                'What it says on the label. (%s)'%timestamp())
+    if TEXT_ENABLE:
+        sendTexts('Google IO Registration Notifier started. (%s)'%timestamp())
     print 'entering main page checker loop...'
     checker()
-    print 'stopping local SMTP server...'
-    SMTPServ.quit()
+    if EMAIL_ENABLE:
+        print 'stopping local SMTP server...'
+        SMTPServ.quit()
     print 'done!'
     exit(0)
 
@@ -74,15 +83,18 @@ def checker():
             if newPage != oldPage:
                 print '%s ** REGISTRATION PAGE HAS CHANGED!! **'%timestamp()
                 print 'sending barrage of notifications...'
-                sendEmails('Google IO registration page has changed!!',
-                        'Google IO registration page has changed!! ' +
-                        'Get your butt over to the Google IO registration ' +
-                        'page (%s) '%REGISTRATION_URL + 
-                        'and get those tickets! (%s)'%timestamp())
-                sendTexts('Google IO registration page has changed!! Get ' +
-                        'your butt over to the Google IO registration page ' +
-                        '(%s) '%REGISTRATION_URL + 
-                        'and get those tickets! (%s)'%timestamp())
+                if EMAIL_ENABLE:
+                    sendEmails('Google IO registration page has changed!!',
+                            'Google IO registration page has changed!! ' +
+                            'Get your butt over to the Google IO ' +
+                            'registration page (%s) '%REGISTRATION_URL + 
+                            'and get those tickets! (%s)'%timestamp())
+                if TEXT_ENABLE:
+                    sendTexts('Google IO registration page has changed!! ' +
+                            'Get your butt over to the Google IO ' +
+                            'registration page (%s) '%REGISTRATION_URL + 
+                            'and get those tickets! (%s)'%timestamp(), 
+                            TEXT_COPIES, TEXT_INTERVAL)
                 oldPage = newPage
             else:
                 print '%s Registration page is the same.'%timestamp() 

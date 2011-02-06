@@ -5,12 +5,23 @@ If this file is named ``settings.py.dist``, copy it to ``settings.py``
 and change the settings to reflect your needs.
 '''
 
+# ------------------
+# Registration page
+# ------------------
+
 # The URL of the registration page.
 REGISTRATION_URL = 'http://www.google.com/events/io/2011/register.html'
 
 # The time interval, in seconds, for how often to check the registration page.
 # Careful about checking too often because we don't want to upset the Googles.
 INTERVAL_SEC = 15
+
+# --------------------
+# Email notifications
+# --------------------
+
+# Enable email notificiations?
+EMAIL_ENABLE = True
 
 # The 'from' email address. Usually 'foo@localhost' will work. Check to
 # make sure it doesn't end up in your spam folder.
@@ -19,6 +30,20 @@ FROM_EMAIL = 'GoogleIORegistrationNotifier@localhost'
 # A list of email recipients for the email notifications.
 EMAIL_RECIPIENTS = ['foo@bar.com']
 
+# -------------------------
+# Text (SMS) notifications
+# -------------------------
+
+# Enable text notifications?
+TEXT_ENABLE = True
+
 # A list of text (SMS) recipients for the text notifications.
 TEXT_RECIPIENTS = ['1234567890']
+
+# How many copies of the notification text to send.
+TEXT_COPIES = 1
+
+# Seconds between sending copies of the text. Only matters if 
+# ``TEXT_COPIES`` > 1
+TEXT_INTERVAL = 1
 
