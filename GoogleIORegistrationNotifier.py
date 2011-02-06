@@ -46,6 +46,10 @@ def main():
     except GVLoginError:
         print 'Google Voice login failed. Exiting.'
         exit(1)
+    print 'sending text(s) and email(s) reporting notifier start...'
+    sendEmails('Google IO Registration Notifier started.',
+            'What it says on the label. (%s)'%timestamp())
+    sendTexts('Google IO Registration Notifier started. (%s)'%timestamp())
     print 'entering main page checker loop...'
     checker()
     print 'stopping local SMTP server...'
@@ -78,7 +82,7 @@ def checker():
                 sendTexts('Google IO registration page has changed!! Get ' +
                         'your butt over to the Google IO registration page ' +
                         '(%s) '%REGISTRATION_URL + 
-                        'and get those tickets! (%s)'%timestamp(), nrCopies=3)
+                        'and get those tickets! (%s)'%timestamp())
                 oldPage = newPage
             else:
                 print '%s Registration page is the same.'%timestamp() 
