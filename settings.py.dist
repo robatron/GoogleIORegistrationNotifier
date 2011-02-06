@@ -1,0 +1,24 @@
+'''
+Global settings for the Google IO Registration Notifier
+
+If this file is named ``settings.py.dist``, copy it to ``settings.py``
+and change the settings to reflect your needs.
+'''
+
+# The URL of the registration page.
+REGISTRATION_URL = 'http://www.google.com/events/io/2011/register.html'
+
+# The time interval, in seconds, for how often to check the registration page.
+# Careful about checking too often because we don't want to upset the Googles.
+INTERVAL_SEC = 15
+
+# The 'from' email address. Usually 'foo@localhost' will work. Check to
+# make sure it doesn't end up in your spam folder.
+FROM_EMAIL = 'foo@localhost'
+
+# A list of email recipients for the email notifications.
+EMAIL_RECIPIENTS = ['foo@bar.com']
+
+# A list of text (SMS) recipients for the text notifications.
+TEXT_RECIPIENTS = ['1234567890']
+
