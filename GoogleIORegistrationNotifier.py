@@ -68,6 +68,7 @@ def main():
     if EMAIL_ENABLE:
         sendEmails('Google IO Registration Notifier started.',
                 'What it says on the label. (%s)'%timestamp())
+
     if TEXT_ENABLE:
         sendTexts('Google IO Registration Notifier started. (%s)'%timestamp())
     
@@ -90,14 +91,16 @@ def checker():
     interval. If anything changes, send notifications.
     '''
     oldPage = urllib.urlopen(REGISTRATION_URL).read()
-    print '%s starting to check page %s...'%(timestamp(), REGISTRATION_URL)
+    iterations = 0
+    print '%s starting page-checks on %s...'%(timestamp(), REGISTRATION_URL)
     while True:
         try:
             time.sleep(INTERVAL_SEC)
+            print '%s On check #%d (zero-indexed)'%(timestamp(),iterations)
             newPage = urllib.urlopen(REGISTRATION_URL).read()
             if newPage != oldPage:
-                print '%s ** REGISTRATION PAGE HAS CHANGED!! **'%timestamp()
-                print 'sending barrage of notifications...'
+                print '%s *** REGISTRATION PAGE HAS CHANGED!! ***'%timestamp()
+                print '%s sending barrage of notifications...'%timestamp()
                 if EMAIL_ENABLE:
                     sendEmails('Google IO registration page has changed!!',
                             'Google IO registration page has changed!! ' +
@@ -112,9 +115,11 @@ def checker():
                             nrCopies=TEXT_COPIES, textInterval=TEXT_INTERVAL)
                 oldPage = newPage
             else:
-                print '%s Registration page is the same.'%timestamp() 
-                print 'Checking again in %s seconds...'%INTERVAL_SEC
+                print '%s registration page is the same.'%timestamp() 
+                print '%s checking again in %s seconds...'%(timestamp(),
+                        INTERVAL_SEC)
                 oldPage = newPage
+            iterations += 1
         except KeyboardInterrupt:
             print 'aught Ctrl-c.'
             print 'stopping page checking...'
