@@ -17,5 +17,3 @@ Send a barrage of notifications to the specified email addresse(s) and phone num
  1. Log into Google Voice when it asks
 
 It should send text(s) and email(s) reporting that it has started. It should now be periodically checking the registration page for changes, and send email(s) and text(s) if it finds any.
-
-
