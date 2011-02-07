@@ -50,7 +50,7 @@ def main():
         except GVLoginError:
             print 'Google Voice login failed. Exiting.'
             exit(1)
-    if !EMAIL_ENABLE and !TEXT_ENABLE:
+    if not EMAIL_ENABLE and not TEXT_ENABLE:
         print '** WARNING ** Both text and email notifications are DISABLED.'
     print 'sending text(s) and email(s) reporting notifier start...'
     if EMAIL_ENABLE:
@@ -93,8 +93,7 @@ def checker():
                     sendTexts('Google IO registration page has changed!! ' +
                             'Get your butt over to the Google IO ' +
                             'registration page (%s) '%REGISTRATION_URL + 
-                            'and get those tickets! (%s)'%timestamp(), 
-                            TEXT_COPIES, TEXT_INTERVAL)
+                            'and get those tickets! (%s)'%timestamp())
                 oldPage = newPage
             else:
                 print '%s Registration page is the same.'%timestamp() 
@@ -117,23 +116,19 @@ def sendEmails(subject, message):
     print 'sending email(s) "%s" to %s'%(msg['Subject'],EMAIL_RECIPIENTS)
     SMTPServ.sendmail(FROM_EMAIL, EMAIL_RECIPIENTS, msg.as_string())
 
-def sendTexts(message, nrCopies=1, sleepInterval=1):
+def sendTexts(message):
     ''' 
     Send specified number of texts to the specified numbers.
-
-    ``message`` is the text message to send, ``nrCopies`` is the number of 
-    copies of texts to send, and ``sleepInterval``  is the time between the 
-    texts in seconds, which only matters if nrCopies > 1.
     '''
-    print 'sending %s text(s) to %s...'%(nrCopies, TEXT_RECIPIENTS)
-    for i in range(nrCopies):
+    print 'sending %s text(s) to %s...'%(TEXT_COPIES, TEXT_RECIPIENTS)
+    for i in range(TEXT_COPIES):
         for number in TEXT_RECIPIENTS:
             print 'sending text "%s" to %s...'%(message, number)
             GVoice.send_sms(number, message)
-        if nrCopies > 1 and i < nrCopies - 1:
+        if TEXT_COPIES > 1 and i < TEXT_COPIES - 1:
             print 'sleeping for %d second(s) before sending another copy...'\
-                    %sleepInterval
-            time.sleep(sleepInterval)
+                    %TEXT_INTERVAL
+            time.sleep(TEXT_INTERVAL)
 
 # -------------
 # misc helpers
