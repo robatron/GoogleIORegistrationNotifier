@@ -4,8 +4,8 @@ Send a barrage of notifications to the specified email addresse(s) and phone num
 
 ## Requirements
  * Python >= v2.6
- * pygooglevoice >= v0.5 ([http://code.google.com/p/pygooglevoice/])
- * A working Google Voice account ([http://voice.google.com])
+ * [pygooglevoice](http://code.google.com/p/pygooglevoice/) >= v0.5
+ * A working [Google Voice](http://voice.google.com) account
 
 ## Installation
  1. Download the files into a directory of your choice
