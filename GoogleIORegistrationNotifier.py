@@ -6,11 +6,12 @@ Send a barrage of notifications to the specified email addresse(s) and phone
 number(s) (via SMS text message) when the Google IO registration page changes 
 at all, indicating that registration might be open.
 
-You'll need a Google Voice account to for sending SMS notifications.
+All settings are in ``settings.py`` (or ``settings.py.dist``).
 
-Dependencies:
+Requirements:
     * Python >= v2.6
     * pygooglevoice >= v0.5 (http://code.google.com/p/pygooglevoice/)
+    * A working Google Voice account (http://voice.google.com)
 '''
 import time
 import urllib
