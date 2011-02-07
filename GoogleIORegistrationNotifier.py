@@ -40,11 +40,15 @@ def main():
     print ' Google IO Registration Notifier '
     print '---------------------------------'
     print 'page check interval set to %s seconds'%INTERVAL_SEC
+
     if EMAIL_ENABLE:
         print 'email notifications enabled.'
         print 'emails will be sent as %s.'%FROM_EMAIL
         print 'connecting to local SMTP server...'
         SMTPServ.connect()
+    else:
+        print 'email notifications DISABLED.'
+
     if TEXT_ENABLE:
         print 'text (SMS) notifications enabled.'
         print 'please log in to Google Voice:'
@@ -53,19 +57,27 @@ def main():
         except GVLoginError:
             print 'Google Voice login failed. Exiting.'
             exit(1)
+    else:
+        print 'text notifications DISABLED'
+
     if not EMAIL_ENABLE and not TEXT_ENABLE:
         print '** WARNING ** Both text and email notifications are DISABLED.'
-    print 'sending text(s) and email(s) reporting notifier start...'
+    else:
+        print 'sending text(s) and email(s) reporting notifier start...'
+    
     if EMAIL_ENABLE:
         sendEmails('Google IO Registration Notifier started.',
                 'What it says on the label. (%s)'%timestamp())
     if TEXT_ENABLE:
         sendTexts('Google IO Registration Notifier started. (%s)'%timestamp())
+    
     print 'entering main page checker loop...'
     checker()
+    
     if EMAIL_ENABLE:
         print 'stopping local SMTP server...'
         SMTPServ.quit()
+    
     print 'done!'
     exit(0)
 
@@ -91,12 +103,13 @@ def checker():
                             'Google IO registration page has changed!! ' +
                             'Get your butt over to the Google IO ' +
                             'registration page (%s) '%REGISTRATION_URL + 
-                            'and get those tickets! (%s)'%timestamp())
+                            'and get those tickets!')
                 if TEXT_ENABLE:
                     sendTexts('Google IO registration page has changed!! ' +
                             'Get your butt over to the Google IO ' +
                             'registration page (%s) '%REGISTRATION_URL + 
-                            'and get those tickets! (%s)'%timestamp())
+                            'and get those tickets!',
+                            nrCopies=TEXT_COPIES, textInterval=TEXT_INTERVAL)
                 oldPage = newPage
             else:
                 print '%s Registration page is the same.'%timestamp() 
@@ -119,19 +132,19 @@ def sendEmails(subject, message):
     print 'sending email(s) "%s" to %s'%(msg['Subject'],EMAIL_RECIPIENTS)
     SMTPServ.sendmail(FROM_EMAIL, EMAIL_RECIPIENTS, msg.as_string())
 
-def sendTexts(message):
+def sendTexts(message, nrCopies=1, textInterval=1):
     ''' 
     Send specified number of texts to the specified numbers.
     '''
-    print 'sending %s text(s) to %s...'%(TEXT_COPIES, TEXT_RECIPIENTS)
-    for i in range(TEXT_COPIES):
+    print 'sending %s text(s) to %s...'%(nrCopies, TEXT_RECIPIENTS)
+    for i in range(nrCopies):
         for number in TEXT_RECIPIENTS:
             print 'sending text "%s" to %s...'%(message, number)
             GVoice.send_sms(number, message)
-        if TEXT_COPIES > 1 and i < TEXT_COPIES - 1:
+        if nrCopies > 1 and i < nrCopies - 1:
             print 'sleeping for %d second(s) before sending another copy...'\
-                    %TEXT_INTERVAL
-            time.sleep(TEXT_INTERVAL)
+                    %textInterval
+            time.sleep(textInterval)
 
 # -------------
 # misc helpers
