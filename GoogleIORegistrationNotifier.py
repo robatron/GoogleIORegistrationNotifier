@@ -12,6 +12,8 @@ Requirements:
     * Python >= v2.6
     * pygooglevoice >= v0.5 (http://code.google.com/p/pygooglevoice/)
     * A working Google Voice account (http://voice.google.com)
+
+By Rob McGuire-Dale (http://robmd.net), Feb. 2011
 '''
 import time
 import urllib
