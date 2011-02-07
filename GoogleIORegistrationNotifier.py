@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 '''
-Google IO Registration Notifier
+Google I/O Registration Notifier
 
 Send a barrage of notifications to the specified email addresse(s) and phone
-number(s) (via SMS text message) when the Google IO registration page changes 
+number(s) (via SMS text message) when the Google I/O registration page changes 
 at all, indicating that registration might be open.
 
 All settings are in ``settings.py`` (or ``settings.py.dist``).
